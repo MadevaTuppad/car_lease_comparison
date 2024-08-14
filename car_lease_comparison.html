@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Lease Cost Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .chart-box {
+            width: 30%;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        .table-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 48%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>Car Lease Cost Comparison (Manual vs. Automatic Transmission)</h2>
+
+    <div class="chart-container">
+        <div class="chart-box">
+            <h3>Monthly EMI</h3>
+            <canvas id="monthlyEmiChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>Total Tax Savings</h3>
+            <canvas id="taxSavingsChart"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h3>Final Cost After Tax</h3>
+            <canvas id="finalCostChart"></canvas>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div>
+            <h3>Manual Transmission Comparison Table</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lease Period</th>
+                        <th>Monthly EMI (INR)</th>
+                        <th>Total Cost (INR)</th>
+                        <th>Post Payment (INR)</th>
+                        <th>Total Tax Savings (INR)</th>
+                        <th>Final Cost After Tax (INR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2 Years</td>
+                        <td>49,000</td>
+                        <td>14,96,000</td>
+                        <td>3,20,000</td>
+                        <td>3,74,000</td>
+                        <td>11,22,000</td>
+                    </tr>
+                    <tr>
+                        <td>3 Years</td>
+                        <td>38,000</td>
+                        <td>16,34,836</td>
+                        <td>2,66,836</td>
+                        <td>4,26,000</td>
+                        <td>12,08,836</td>
+                    </tr>
+                    <tr>
+                        <td>4 Years</td>
+                        <td>32,476</td>
+                        <td>17,72,000</td>
+                        <td>2,12,971</td>
+                        <td>5,08,000</td>
+                        <td>12,64,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <h3>Automatic Transmission Comparison Table</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lease Period</th>
+                        <th>Monthly EMI (INR)</th>
+                        <th>Total Cost (INR)</th>
+                        <th>Post Payment (INR)</th>
+                        <th>Total Tax Savings (INR)</th>
+                        <th>Final Cost After Tax (INR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2 Years</td>
+                        <td>55,722</td>
+                        <td>17,01,138</td>
+                        <td>3,63,810</td>
+                        <td>4,16,000</td>
+                        <td>12,85,138</td>
+                    </tr>
+                    <tr>
+                        <td>3 Years</td>
+                        <td>43,153</td>
+                        <td>18,56,841</td>
+                        <td>3,03,333</td>
+                        <td>4,83,000</td>
+                        <td>13,73,841</td>
+                    </tr>
+                    <tr>
+                        <td>4 Years</td>
+                        <td>36,930</td>
+                        <td>20,15,495</td>
+                        <td>2,42,855</td>
+                        <td>5,52,000</td>
+                        <td>14,63,495</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Data for Monthly EMI
+        const monthlyEmiData = {
+            labels: ['2 Years', '3 Years', '4 Years'],
+            datasets: [
+                {
+                    label: 'Manual Transmission',
+                    data: [49000, 38000, 32476],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    barThickness: 20
+                },
+                {
+                    label: 'Automatic Transmission',
+                    data: [55722, 43153, 36930],
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    barThickness: 20
+                }
+            ]
+        };
+
+        // Data for Total Tax Savings
+        const taxSavingsData = {
+            labels: ['2 Years', '3 Years', '4 Years'],
+            datasets: [
+                {
+                    label: 'Manual Transmission',
+                    data: [374000, 426000, 508000],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    barThickness: 20
+                },
+                {
+                    label: 'Automatic Transmission',
+                    data: [416000, 483000, 552000],
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    barThickness: 20
+                }
+            ]
+        };
+
+        // Data for Final Cost After Tax
+        const finalCostData = {
+            labels: ['2 Years', '3 Years', '4 Years'],
+            datasets: [
+                {
+                    label: 'Manual Transmission',
+                    data: [1122000, 1208836, 1264000],
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    barThickness: 20
+                },
+                {
+                    label: 'Automatic Transmission',
+                    data: [1285138, 1373841, 1463495],
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    barThickness: 20
+                }
+            ]
+        };
+
+        // Chart configurations
+        const config = {
+            type: 'bar',
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'INR'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Lease Period'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `₹${tooltipItem.raw.toLocaleString()}`;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // Render the charts
+        const ctxEmi = document.getElementById('monthlyEmiChart').getContext('2d');
+        const ctxSavings = document.getElementById('taxSavingsChart').getContext('2d');
+        const ctxFinalCost = document.getElementById('finalCostChart').getContext('2d');
+
+        new Chart(ctxEmi, { ...config, data: monthlyEmiData });
+        new Chart(ctxSavings, { ...config, data: taxSavingsData });
+        new Chart(ctxFinalCost, { ...config, data: finalCostData });
+
+    </script>
+</body>
+</html>
